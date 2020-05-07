@@ -1,0 +1,107 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: darkred;
+}
+
+h1 {
+    color: white;
+    margin-left: 500px;
+}
+
+.felt {
+    margin: 50px;
+    border: 4px solid black;
+    background-color: darkgreen;
+    height: 75vh;
+    display: grid;
+    grid-template-columns: 20% 60% 20%;
+    grid-template-rows: 50%;
+    grid-template-areas: 
+    "blank dealer blankx"
+    "blank player blankx";
+
+}
+
+.felt .cards {
+    margin-top: 75px;
+    height: 200px;
+    width: auto;
+    border: 2px solid white;
+}
+
+.felt .dealer-cards {
+    grid-area: dealer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.felt .player-cards {
+    grid-area: player;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    height: 150px;
+}
+
+
+.back-of-card{
+    height: 150px;
+    border-radius: 5px;
+    border: 3px solid black;
+    width: 100px;
+    background: #36c;
+background:
+linear-gradient(115deg, transparent 75%, rgba(255,255,255,.8) 75%) 0 0,
+linear-gradient(245deg, transparent 75%, rgba(255,255,255,.8) 75%) 0 0,
+linear-gradient(115deg, transparent 75%, rgba(255,255,255,.8) 75%) 7px -15px,
+linear-gradient(245deg, transparent 75%, rgba(255,255,255,.8) 75%) 7px -15px,
+#36c;
+background-size: 15px 30px;
+}
+
+.btn {
+    position: relative;
+    left: 42%;
+    top: 50%;
+}
+
+.btn.btn-deal {
+    height: 100px;
+    width: 100px;
+    border-radius: 100%;
+    background-color: blue;
+    border: 2px solid blue;
+    color: white;
+    cursor: pointer;
+}
+
+
+.btn.btn-stick {
+    height: 100px;
+    width: 100px;
+    border-radius: 100%;
+    background-color: green;
+    border: 2px solid green;
+    color: white;
+    cursor: pointer;
+}
+
+
+.btn.btn-twist {
+    height: 100px;
+    width: 100px;
+    border-radius: 100%;
+    background-color: orange;
+    border: 2px solid orange;
+    color: white;
+    cursor: pointer;
+}
