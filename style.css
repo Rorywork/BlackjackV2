@@ -6,6 +6,7 @@
 
 body {
     background-color: darkred;
+    font-family: cursive;
 }
 
 h1 {
@@ -104,4 +105,25 @@ background-size: 15px 30px;
     border: 2px solid orange;
     color: white;
     cursor: pointer;
+}
+
+.new-game-btn {
+    height: 50px;
+    width: 100px;
+    border-radius: 10px;
+    background-color: green;
+    color: white;
+    margin-left: 50px;
+}
+
+.result{
+    display: flex;
+    position: absolute;
+    top: 35%;
+    left: 30%;
+    background-color: white;
+    height: 100px;
+    width: 500px;
+    align-items: center;
+    justify-content: center;
 }

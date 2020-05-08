@@ -9,6 +9,7 @@ const dealerSection = document.querySelector('.dealer-cards');
 const playerSection = document.querySelector('.player-cards');
 const playerScoreDisplay = document.querySelector('#playerScore');
 const dealerScoreDisplay = document.querySelector('#dealerScore');
+const resultDisplay = document.querySelector('#resultDisplay');
 let deckID;
 let count = 0;
 let playerCards = [];
@@ -16,6 +17,7 @@ let dealerCards = [];
 // let dealerOrPlayer = true;
 let playerScore = 0;
 let dealerScore = 0;
+let phase = 0;
 
 class Card {
     constructor(imageUrl, suit, value) {
@@ -34,7 +36,35 @@ fetch(url).then(function (response) {
 })
 
 
+function clearGame(newGameBtn) {
+    count = 0;
+    playerCards = [];
+    dealerCards = [];
+    playerScore = 0;
+    dealerScore = 0;
+    playerScoreDisplay.textContent = `Player score is : ${playerScore}`
+    dealerScoreDisplay.textContent = `Dealer score is : ${dealerScore}`
+    resultDisplay.removeChild(newGameBtn);
+    resultDisplay.textContent = '';
+    console.log(playerCards);
+    playerSection.innerHTML = '';
+    dealerSection.innerHTML = '';
+
+    // dealBtn.disabled = 'false';
+    // dealBtn.style.opacity = '1';
+    // twistBtn.disabled = 'true';
+    // twistBtn.style.opacity = '0.5';
+    // stickBtn.disabled = 'true';
+    // stickBtn.style.opacity = '0.5';
+
+}
+
+
+
 dealBtn.addEventListener('click', () => {
+
+    // dealBtn.disabled = 'true';
+    // dealBtn.style.opacity = '0.5';
 
     const myInterval = setInterval(function () {
         if (count % 2 === 0 && count !== 4) {
@@ -56,12 +86,39 @@ twistBtn.addEventListener('click', () => {
     if (playerScore < 21) {
         getCards(1, 'player');
     } else {
-        console.log('Should not be clicked');
+        console.log('Can\'t take any more cards');
     }
 })
 
 stickBtn.addEventListener('click', () => {
-    getCards(1, 'dealer');
+    // if (playerScore < 21 && dealerScore < 17) {
+    //     getCards(1, 'dealer');
+    // } else {
+    //     console.log('error');
+    // }
+
+    if (playerScore < 21 && dealerScore < 17) {
+        getCards(1, 'dealer')
+
+
+    } else if (17 <= dealerScore <= 21) {
+        let newGameBtn = document.createElement('button')
+        newGameBtn.classList.add('new-game-btn')
+        newGameBtn.textContent = 'Play Again'
+        resultDisplay.appendChild(newGameBtn);
+        newGameBtn.addEventListener('click', () => {
+            clearGame(newGameBtn, playerCards, cardImgPlayer);
+        })
+    } else {
+        let newGameBtn = document.createElement('button')
+        newGameBtn.classList.add('new-game-btn')
+        newGameBtn.textContent = 'Play Again'
+        resultDisplay.appendChild(newGameBtn);
+        newGameBtn.addEventListener('click', () => {
+            clearGame(newGameBtn, playerCards, cardImgPlayer);
+        })
+
+    }
 })
 
 
@@ -102,6 +159,33 @@ function getCards(cardsRequired, playerType) {
             let newValue = convertRoyalsToValue(playerCards[playerCards.length - 1].value)
             playerScore += newValue;
             console.log(playerScore);
+            if (playerScore > 21) {
+                // twistBtn.disabled = true;
+                // twistBtn.style.opacity = '0.4'
+                resultDisplay.innerText = 'You have gone Bust!'
+                let newGameBtn = document.createElement('button')
+                newGameBtn.classList.add('new-game-btn')
+                newGameBtn.textContent = 'Play Again'
+                resultDisplay.appendChild(newGameBtn);
+                newGameBtn.addEventListener('click', () => {
+                    clearGame(newGameBtn, playerCards, cardImgPlayer);
+                })
+                // stickBtn.style.backgroundColor = 'lightgreen';
+                // dealerSection.removeChild(dealerSection.lastChild);
+                // dealerSection.appendChild(dealerCards[1].imageUrl)
+            } else if (playerScore === 21) {
+                // twistBtn.disabled = true;
+                // twistBtn.style.opacity = '0.4'
+                resultDisplay.innerText = 'Blackjack'
+                let newGameBtn = document.createElement('button')
+                newGameBtn.classList.add('new-game-btn')
+                newGameBtn.textContent = 'Play Again'
+                resultDisplay.appendChild(newGameBtn);
+                newGameBtn.addEventListener('click', () => {
+                    clearGame(newGameBtn, playerCards, cardImgPlayer);
+                })
+                console.log('Blackjack');
+            }
             playerScoreDisplay.textContent = `Player score is : ${playerScore}`;
 
         } else {
@@ -111,20 +195,25 @@ function getCards(cardsRequired, playerType) {
             for (i = 0; i < dealerCards.length; i++) {
                 // console.log(i);
                 // console.log(dealerCards[i].imageUrl);
-
                 // console.log(count);
-                if (dealerCards.length === 2) {
-                    let backOfCard = document.createElement('div');
-                    backOfCard.classList.add('back-of-card')
-                    dealerSection.appendChild(backOfCard);
-                    return;
-                } else {
-                    cardImgDealer.src = dealerCards[i].imageUrl;
-                    cardImgDealer.classList.add('card');
-                    dealerSection.appendChild(cardImgDealer);
-                }
-
-
+                cardImgDealer.src = dealerCards[i].imageUrl;
+                cardImgDealer.classList.add('card');
+                dealerSection.appendChild(cardImgDealer);
+                // if (dealerCards.length === 2) {
+                //     let backOfCard = document.createElement('div');
+                //     backOfCard.classList.add('back-of-card')
+                //     dealerSection.appendChild(backOfCard);
+                //     return;
+                // } else if (dealerCards.length === 3) {
+                //     dealerSection.removeChild(backofCard);
+                //     cardImgDealer.src = dealerCards[1].imageUrl;
+                //     cardImgDealer.classList.add('card');
+                //     dealerSection.appendChild(cardImgDealer);
+                // } else {
+                //     cardImgDealer.src = dealerCards[i].imageUrl;
+                //     cardImgDealer.classList.add('card');
+                //     dealerSection.appendChild(cardImgDealer);
+                // }
             }
 
             let newValue = convertRoyalsToValue(dealerCards[dealerCards.length - 1].value)
